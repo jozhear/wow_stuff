@@ -1,0 +1,31 @@
+import requests, win32cred, json
+
+class blizz_API_call:
+
+    def get_blizz_token(self):
+        try:
+            blizzAPILogin = win32cred.CredUIPromptForCredentials("localhost")
+            blizzAPITokenUrl = "https://oauth.battle.net/token"
+            username = blizzAPILogin[0].replace('localhost\\','')
+            password = blizzAPILogin[1]
+            blizzCredentials = {
+                'client_id': username,
+                'client_secret': password,
+                'grant_type': "client_credentials"
+            }
+            response = requests.post(
+            blizzAPITokenUrl,
+            data = blizzCredentials
+            )
+            responseJSON = json.loads(response.content)
+            self.accessToken = responseJSON["access_token"]
+
+            response.raise_for_status()
+        except KeyError:
+            return ("Password incorrect. Please try again.")
+
+        else:    
+            return self.accessToken
+
+attempt = blizz_API_call()
+attempt.get_blizz_token()
