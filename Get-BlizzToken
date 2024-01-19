@@ -1,3 +1,5 @@
+# This script retrieves an OAuth token from blizz's API. The idea is to replace the win32cred command with an API call to my own secrets management app, but that's a work in progress.
+
 import requests, win32cred, json
 
 class blizz_API_call:
